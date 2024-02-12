@@ -1,10 +1,18 @@
-const config = require('./config');
-
-// eslint-disable-next-line no-unused-vars
+const config = require("./config");
 const { dbUrl } = config;
+const { MongoClient } = require('mongodb');
+const client = new MongoClient(config.dbUrl);
 
-async function connect() {
-  // TODO: Database Connection
+function connect() {
+  try {
+    //await client.connect();
+    const db = client.db('burguer_queen'); // Reemplaza <NOMBRE_DB> por el nombre del db
+    console.log('conctado');
+    return db;
+   
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 module.exports = { connect };
