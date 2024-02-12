@@ -41,5 +41,8 @@
   "bootcamp": {
     "createdAt": "2023-11-23T20:23:59.750Z",
     "commit": "de8f3a8dd3f24452f18e56bd8efae4d99e7fe353"
-  }
+  },
+  "description": "* [1. Preámbulo](#1-pre%C3%A1mbulo)\r * [2. Resumen del proyecto](#2-resumen-del-proyecto)\r * [3. Objetivos de aprendizaje](#3-objetivos-de-aprendizaje)\r * [4. Consideraciones generales](#4-consideraciones-generales)\r * [5. Criterios de aceptación mínimos del proyecto](#5-criterios-de-aceptaci%C3%B3n-m%C3%ADnimos-del-proyecto)\r * [6. Hacker (Devops) Edition con Docker](#6-hacker-%28devops%29-edition-con-docker)\r * [7. Pistas, tips y lecturas complementarias](#7-pistas-tips-y-lecturas-complementarias)",
+  "keywords": [],
+  "author": ""
 }

@@ -7,7 +7,7 @@ function connect() {
   try {
     //await client.connect();
     const db = client.db('burguer_queen'); // Reemplaza <NOMBRE_DB> por el nombre del db
-    console.log('conctado');
+    console.log("Conetado a la bd burquer queen");
     return db;
    
   } catch (error) {

@@ -1,11 +1,7 @@
 const bcrypt = require('bcrypt');
 const { connect } = require('../connect');
 const { requireAuth, requireAdmin } = require('../middleware/auth');
-
-const {
-  getUsers,
-} = require('../controller/users');
-
+const { getUsers,} = require('../controller/users');
 
 const initAdminUser =  async (app, next) => {
   const { adminEmail, adminPassword } = app.get('config');
@@ -27,7 +23,7 @@ const initAdminUser =  async (app, next) => {
     if(!resultAdmin){
       const saveAdmin = await user.insertOne (adminUser);
     }
-    
+    next();
   } catch(err){
       console.error("error de registro de admin");
       next(401);

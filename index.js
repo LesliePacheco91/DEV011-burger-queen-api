@@ -4,9 +4,8 @@ const authMiddleware = require('./middleware/auth');
 const errorHandler = require('./middleware/error');
 const routes = require('./routes');
 const pkg = require('./package.json');
-const { connect } = require('./connect');
+const connect = require('./connect');
 
-connect();
 const { port, secret } = config;
 const app = express();
 
@@ -22,8 +21,8 @@ app.use(authMiddleware(secret));
 routes(app, (err) => {
   if (err) {
     throw err;
+   
   }
-
   app.use(errorHandler);
 
   app.listen(port, () => {
