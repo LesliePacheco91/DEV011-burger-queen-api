@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const { connect } = require('mongoose');
+const { connect } = require('../connect');
 const { requireAuth, requireAdmin } = require('../middleware/auth');
 
 const {
@@ -7,7 +7,7 @@ const {
 } = require('../controller/users');
 
 
-const initAdminUser = (app, next) => {
+const initAdminUser =  async (app, next) => {
   const { adminEmail, adminPassword } = app.get('config');
   if (!adminEmail || !adminPassword) {
     return next();
@@ -19,11 +19,19 @@ const initAdminUser = (app, next) => {
     roles: "admin",
   };
 
-  // TODO: Create admin user
-  // First, check if adminUser already exists in the database
-  // If it doesn't exist, it needs to be saved
+  try{
+    const db = connect();
+    const user = db.collection('user');
+    const resultAdmin = await user.findOne({email:adminEmail});
 
-  next();
+    if(!resultAdmin){
+      const saveAdmin = await user.insertOne (adminUser);
+    }
+    
+  } catch(err){
+      console.error("error de registro de admin");
+      next(401);
+  }
 };
 
 /*
