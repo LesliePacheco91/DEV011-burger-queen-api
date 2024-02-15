@@ -1,7 +1,8 @@
 const bcrypt = require('bcrypt');
 const { connect } = require('../connect');
 const { requireAuth, requireAdmin } = require('../middleware/auth');
-const { getUsers,} = require('../controller/users');
+
+const { getUsers,registerUser } = require('../controller/users');
 
 const initAdminUser =  async (app, next) => {
   const { adminEmail, adminPassword } = app.get('config');
@@ -12,22 +13,27 @@ const initAdminUser =  async (app, next) => {
   const adminUser = {
     email: adminEmail,
     password: bcrypt.hashSync(adminPassword, 10),
-    roles: "admin",
+    role: 'admin',
   };
 
-  try{
+  try {
     const db = connect();
     const user = db.collection('user');
-    const resultAdmin = await user.findOne({email:adminEmail});
 
-    if(!resultAdmin){
-      const saveAdmin = await user.insertOne (adminUser);
+    const resultAdmin = await user.findOne({email: adminEmail});
+
+    if (!resultAdmin) {
+      await user.insertOne(adminUser);
+     
+    } else {
+      throw new Error("El usuario administrador ya existe en la colección 'users'");
     }
-    next();
-  } catch(err){
-      console.error("error de registro de admin");
-      next(401);
+  } catch (error) {
+    // Manejar el error de la consulta a la base de datos
+    console.error('error de ejecucion',error);
+    
   }
+  next();
 };
 
 /*
@@ -92,8 +98,8 @@ module.exports = (app, next) => {
   app.get('/users/:uid', requireAuth, (req, resp) => {
   });
 
-  app.post('/users', requireAdmin, (req, resp, next) => {
-    // TODO: Implement the route to add new users
+  app.post('/users', requireAdmin,registerUser, (req, resp, next) =>{
+    console.log("desde routes register user");
   });
 
   app.put('/users/:uid', requireAuth, (req, resp, next) => {

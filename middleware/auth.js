@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 module.exports = (secret) => (req, resp, next) => {
   const { authorization } = req.headers;
-
+  console.log(authorization);
   if (!authorization) {
     return next();
   }
@@ -15,14 +15,14 @@ module.exports = (secret) => (req, resp, next) => {
 
   jwt.verify(token, secret, (err, decodedToken) => {
     if (err) {
-      return next(403);
+      //return next(403);
+      return next({ status: 403, message: 'El Token es Invalido' });
     }
-
-    req.userId = decodedToken.id;
+    req.userId = decodedToken.uid;
     req.userRole = decodedToken.role;
-    console.log(req.userId, req.userRole);
+    req.email = decodedToken.email;
+    
     return next();
-
     // TODO: Verify user identity using `decodeToken.uid`
   });
 };
@@ -31,7 +31,7 @@ module.exports.isAuthenticated = (req) => {
 
   const userId = req.userId ? req.userId.toString() : null;
   if(userId){
-    console.log("autenticado",userId);
+    console.log("isAuthenticated",userId);
     return true;
   }else{
     console.log(" no autenticado");
@@ -44,13 +44,13 @@ module.exports.isAdmin = (req) => {
 
   const userRol = req.userRole ? req.userRole.toString(): null;
 
-  if(userRol === "admin" || userRol === "Admin"){
-    console.log("Es admin");
-    // TODO: Decide based on the request information whether the user is an admin
-    return true;
-  }else{
+  if(userRol != 'admin' ){
     console.log("No es admin");
     return false;
+  }else{
+    console.log("isAdmin");
+    // TODO: Decide based on the request information whether the user is an admin
+    return true;
   }
   // TODO: Decide based on the request information whether the user is an admin
 };

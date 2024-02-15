@@ -21,6 +21,7 @@ const __e2e = {
   testUserCredentials: {
     email: 'test@test.test',
     password: '123456',
+    role: 'chef'
   },
   testUserToken: null,
   childProcessPid: null,
@@ -60,6 +61,7 @@ const createTestUser = () => fetchAsAdmin('/users', {
   body: __e2e.testUserCredentials,
 })
   .then((resp) => {
+    console.log("lo que llega en cresteTestUsae",__e2e.testUserCredentials);
     if (resp.status !== 200) {
       throw new Error(`Error: Could not create test user - response ${resp.status}`);
     }
@@ -160,3 +162,4 @@ process.fetch = fetch;
 process.fetchWithAuth = fetchWithAuth;
 process.fetchAsAdmin = fetchAsAdmin;
 process.fetchAsTestUser = fetchAsTestUser;
+
